@@ -1,0 +1,3 @@
+schema @sdl(files: ["blog/wordpress.graphql"]) {
+  query: Query
+}

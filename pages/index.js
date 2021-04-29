@@ -7,9 +7,10 @@ import Layout from '../components/layout'
 import { getAllPostsForHome } from '../lib/api'
 import { CMS_NAME } from '../lib/constants'
 
-export default function Index({ allPosts: { edges }, preview }) {
-  const heroPost = edges[0]?.node
-  const morePosts = edges.slice(1)
+export default function Index({ allPosts, preview }) {
+  const heroPost = allPosts[0]
+  //console.log("heroPost", heroPost)
+  const morePosts = allPosts.slice(1)
 
   return (
     <>
@@ -22,9 +23,9 @@ export default function Index({ allPosts: { edges }, preview }) {
           {heroPost && (
             <HeroPost
               title={heroPost.title}
-              coverImage={heroPost.featuredImage?.node}
+              coverImage={heroPost.featuredMedia}
               date={heroPost.date}
-              author={heroPost.author?.node}
+              author={{name: heroPost.authorName, avatarurl: heroPost.authorAvatarURL48}}
               slug={heroPost.slug}
               excerpt={heroPost.excerpt}
             />
@@ -38,6 +39,7 @@ export default function Index({ allPosts: { edges }, preview }) {
 
 export async function getStaticProps({ preview = false }) {
   const allPosts = await getAllPostsForHome(preview)
+  //console.log("allPosts:", allPosts)
   return {
     props: { allPosts, preview },
   }

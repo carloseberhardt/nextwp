@@ -1,0 +1,937 @@
+""" Users Indices"""
+type UserIDs {
+     """ ID """
+       id: ID!
+
+     user: User
+     @materializer(
+      query: "user"
+      arguments: [{ name: "id", field: "id" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  userIDs(pageNumber: Int!=1): [UserIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/users/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "id", path: "body[].id"}    
+    ]
+  )
+}
+""" Users """
+type User {
+     """ ID """
+       id: ID!
+     """ Display name """
+       name: String
+     """ URL """
+       url: String
+     """ Description in HTML """
+       description: String
+     """ URL """
+       link: String
+     """ alphanum id unique to type """
+       slug: String
+     avatarURL24: String
+     avatarURL48: String
+     avatarURL96: String
+}
+
+type Query {
+  user(id: ID!): User
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/users/$id&_embed&_envelope"
+    setters: [
+      {field: "id", path: "body.id"}
+     {field: "name", path: "body.name"}
+     {field: "url", path: "body.url"}
+     {field: "description", path: "body.description"}
+     {field: "link", path: "body.link"}
+     {field: "slug", path: "body.slug"}
+     {field: "avatarURL24", path: "body.avatar_urls.`24`"}
+     {field: "avatarURL48", path: "body.avatar_urls.`48`"}
+     {field: "avatarURL96", path: "body.avatar_urls.`96`"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+
+""" Pages Indices"""
+type PageIDs {
+     """ Publish date """
+       date: String
+     """ Publish date GMT """
+       dateGMT: String
+     """ GUID """
+       guid: String
+     """ ID """
+       id: ID!
+     """ URL to this object """
+       link: String
+     """ Modified date """
+       modified: String
+     """ Modified date GMT """
+       modifiedGMT: String
+     """ named status: publish, future, draft, pending, private """
+       status: String
+     """ page type """
+       type: String
+     """ template """
+       template: String
+     apiItemsTotal: Int
+     apiItemsPages: Int
+
+     page: Page
+     @materializer(
+      query: "page"
+      arguments: [{ name: "id", field: "id" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  pageIDs(pageNumber: Int!=1): [PageIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/page/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "date", path: "body[].date"}
+     {field: "dateGMT", path: "body[].date_gmt"}
+     {field: "guid", path: "body[].guid.rendered"}
+     {field: "id", path: "body[].id"}
+     {field: "link", path: "body[].link"}
+     {field: "modified", path: "body[].modified"}
+     {field: "modifiedGMT", path: "body[].modified_gmt"}
+     {field: "status", path: "body[].status"}
+     {field: "type", path: "body[].type"}
+     {field: "template", path: "body[].template"}
+     {field: "apiItemsTotal", path: "headers.`X-WP-Total`"}
+     {field: "apiItemsPages", path: "headers.`X-WP-TotalPages`"}    
+    ]
+  )
+}
+""" Pages """
+type Page {
+     """ Publish date """
+       date: String
+     """ Publish date GMT """
+       dateGMT: String
+     """ GUID """
+       guid: String
+     """ ID """
+       id: ID!
+     """ URL to this object """
+       link: String
+     """ Modified date """
+       modified: String
+     """ Modified date GMT """
+       modifiedGMT: String
+     """ alphanum id unique to type """
+       slug: String
+     """ named status: publish, future, draft, pending, private """
+       status: String
+     """ page type """
+       type: String
+     """ parent ID """
+       parentID: ID
+     """ rendered title """
+       title: String
+     """ rendered content """
+       content: String
+     """ content protected """
+       contentProtected: Boolean
+     """ author ID """
+       authorID: ID
+     """ rendered excerpt """
+       excerpt: String
+     """ exceprt protected """
+       excerptProtected: Boolean
+     """ featured media ID """
+       featuredMediaID: ID
+     """ comment status: open,closed """
+       commentStatus: String
+     """ ping status: open,closed """
+       pingStatus: String
+     """ order items """
+       menuOrder: Int
+     """ template """
+       template: String
+     """ Display name """
+       authorName: String
+     """ URL """
+       authorUrl: String
+     """ Description in HTML """
+       authorDescription: String
+     """ URL """
+       authorLink: String
+     """ alphanum id unique to type """
+       authorSlug: String
+     authorAvatarURL24: String
+     authorAvatarURL48: String
+     authorAvatarURL96: String
+}
+
+type Query {
+  page(id: ID!): Page
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/page/$id&_embed&_envelope"
+    setters: [
+      {field: "date", path: "body.date"}
+     {field: "dateGMT", path: "body.date_gmt"}
+     {field: "guid", path: "body.guid.rendered"}
+     {field: "id", path: "body.id"}
+     {field: "link", path: "body.link"}
+     {field: "modified", path: "body.modified"}
+     {field: "modifiedGMT", path: "body.modified_gmt"}
+     {field: "slug", path: "body.slug"}
+     {field: "status", path: "body.status"}
+     {field: "type", path: "body.type"}
+     {field: "parentID", path: "body.parent"}
+     {field: "title", path: "body.title.rendered"}
+     {field: "content", path: "body.content.rendered"}
+     {field: "contentProtected", path: "body.content.protected"}
+     {field: "authorID", path: "body.author"}
+     {field: "excerpt", path: "body.excerpt.rendered"}
+     {field: "excerptProtected", path: "body.excerpt.protected"}
+     {field: "featuredMediaID", path: "body.featured_media"}
+     {field: "commentStatus", path: "body.comment_status"}
+     {field: "pingStatus", path: "body.ping_status"}
+     {field: "menuOrder", path: "body.menu_order"}
+     {field: "template", path: "body.template"}
+     {field: "authorName", path: "body._embedded.author[].name"}
+     {field: "authorUrl", path: "body._embedded.author[].url"}
+     {field: "authorDescription", path: "body._embedded.author[].description"}
+     {field: "authorLink", path: "body._embedded.author[].link"}
+     {field: "authorSlug", path: "body._embedded.author[].slug"}
+     {field: "authorAvatarURL24", path: "body._embedded.author[].avatar_urls.`24`"}
+     {field: "authorAvatarURL48", path: "body._embedded.author[].avatar_urls.`48`"}
+     {field: "authorAvatarURL96", path: "body._embedded.author[].avatar_urls.`96`"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+
+""" Posts Indices"""
+type PostIDs {
+     """ Publish date """
+       date: String
+     """ Publish date GMT """
+       dateGMT: String
+     """ GUID """
+       guid: String
+     """ ID """
+       id: ID!
+     """ URL to this object """
+       link: String
+     """ Modified date """
+       modified: String
+     """ Modified date GMT """
+       modifiedGMT: String
+     """ named status: publish, future, draft, pending, private """
+       status: String
+     """ post type """
+       type: String
+     """ format: standard, aside, chat, gallery, link, image, quote, status, video, audio """
+       format: String
+     """ template """
+       template: String
+     apiItemsTotal: Int
+     apiItemsPages: Int
+
+     post: Post
+     @materializer(
+      query: "post"
+      arguments: [{ name: "id", field: "id" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  postIDs(pageNumber: Int!=1): [PostIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/posts/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "date", path: "body[].date"}
+     {field: "dateGMT", path: "body[].date_gmt"}
+     {field: "guid", path: "body[].guid.rendered"}
+     {field: "id", path: "body[].id"}
+     {field: "link", path: "body[].link"}
+     {field: "modified", path: "body[].modified"}
+     {field: "modifiedGMT", path: "body[].modified_gmt"}
+     {field: "status", path: "body[].status"}
+     {field: "type", path: "body[].type"}
+     {field: "format", path: "body[].format"}
+     {field: "template", path: "body[].template"}
+     {field: "apiItemsTotal", path: "headers.`X-WP-Total`"}
+     {field: "apiItemsPages", path: "headers.`X-WP-TotalPages`"}    
+    ]
+  )
+}
+""" Posts """
+type Post {
+     """ Publish date """
+       date: String
+     """ Publish date GMT """
+       dateGMT: String
+     """ GUID """
+       guid: String
+     """ ID """
+       id: ID!
+     """ URL to this object """
+       link: String
+     """ Modified date """
+       modified: String
+     """ Modified date GMT """
+       modifiedGMT: String
+     """ alphanum id unique to type """
+       slug: String
+     """ named status: publish, future, draft, pending, private """
+       status: String
+     """ post type """
+       type: String
+     """ parent ID """
+       parentID: ID
+     """ rendered title """
+       title: String
+     """ rendered content """
+       content: String
+     """ content protected """
+       contentProtected: Boolean
+     """ author ID """
+       authorID: ID
+     """ rendered excerpt """
+       excerpt: String
+     """ exceprt protected """
+       excerptProtected: Boolean
+     """ featured media ID """
+       featuredMediaID: ID!
+     """ comment status: open,closed """
+       commentStatus: String
+     """ ping status: open,closed """
+       pingStatus: String
+     """ order items """
+       menuOrder: Int
+     """ format: standard, aside, chat, gallery, link, image, quote, status, video, audio """
+       format: String
+     """ Is sticky """
+       sticky: Boolean
+     """ template """
+       template: String
+     """ Display name """
+       authorName: String
+     """ URL """
+       authorUrl: String
+     """ Description in HTML """
+       authorDescription: String
+     """ URL """
+       authorLink: String
+     """ alphanum id unique to type """
+       authorSlug: String
+     authorAvatarURL24: String
+     authorAvatarURL48: String
+     authorAvatarURL96: String
+}
+
+type Query {
+  posts(first: Int! = 20): [Post]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/posts&_embed&_envelope&per_page=$first"
+    resultroot: "body[]"
+    setters: [
+      {field: "date", path: "date"}
+     {field: "dateGMT", path: "date_gmt"}
+     {field: "guid", path: "guid.rendered"}
+     {field: "id", path: "id"}
+     {field: "link", path: "link"}
+     {field: "modified", path: "modified"}
+     {field: "modifiedGMT", path: "modified_gmt"}
+     {field: "slug", path: "slug"}
+     {field: "status", path: "status"}
+     {field: "type", path: "type"}
+     {field: "parentID", path: "parent"}
+     {field: "title", path: "title.rendered"}
+     {field: "content", path: "content.rendered"}
+     {field: "contentProtected", path: "content.protected"}
+     {field: "authorID", path: "author"}
+     {field: "excerpt", path: "excerpt.rendered"}
+     {field: "excerptProtected", path: "excerpt.protected"}
+     {field: "featuredMediaID", path: "featured_media"}
+     {field: "commentStatus", path: "comment_status"}
+     {field: "pingStatus", path: "ping_status"}
+     {field: "menuOrder", path: "menu_order"}
+     {field: "format", path: "format"}
+     {field: "sticky", path: "sticky"}
+     {field: "template", path: "template"}
+     {field: "authorName", path: "_embedded.author[].name"}
+     {field: "authorUrl", path: "_embedded.author[].url"}
+     {field: "authorDescription", path: "_embedded.author[].description"}
+     {field: "authorLink", path: "_embedded.author[].link"}
+     {field: "authorSlug", path: "_embedded.author[].slug"}
+     {field: "authorAvatarURL24", path: "_embedded.author[].avatar_urls.`24`"}
+     {field: "authorAvatarURL48", path: "_embedded.author[].avatar_urls.`48`"}
+     {field: "authorAvatarURL96", path: "_embedded.author[].avatar_urls.`96`"}
+    ]
+   configuration: "wordpress_config"
+  )
+  post(id: ID!): Post
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/posts&_embed&_envelope&slug=$id"
+    resultroot: "body[]"
+    setters: [
+      {field: "date", path: "date"}
+     {field: "dateGMT", path: "date_gmt"}
+     {field: "guid", path: "guid.rendered"}
+     {field: "id", path: "id"}
+     {field: "link", path: "link"}
+     {field: "modified", path: "modified"}
+     {field: "modifiedGMT", path: "modified_gmt"}
+     {field: "slug", path: "slug"}
+     {field: "status", path: "status"}
+     {field: "type", path: "type"}
+     {field: "parentID", path: "parent"}
+     {field: "title", path: "title.rendered"}
+     {field: "content", path: "content.rendered"}
+     {field: "contentProtected", path: "content.protected"}
+     {field: "authorID", path: "author"}
+     {field: "excerpt", path: "excerpt.rendered"}
+     {field: "excerptProtected", path: "excerpt.protected"}
+     {field: "featuredMediaID", path: "featured_media"}
+     {field: "commentStatus", path: "comment_status"}
+     {field: "pingStatus", path: "ping_status"}
+     {field: "menuOrder", path: "menu_order"}
+     {field: "format", path: "format"}
+     {field: "sticky", path: "sticky"}
+     {field: "template", path: "template"}
+     {field: "authorName", path: "_embedded.author[].name"}
+     {field: "authorUrl", path: "_embedded.author[].url"}
+     {field: "authorDescription", path: "_embedded.author[].description"}
+     {field: "authorLink", path: "_embedded.author[].link"}
+     {field: "authorSlug", path: "_embedded.author[].slug"}
+     {field: "authorAvatarURL24", path: "_embedded.author[].avatar_urls.`24`"}
+     {field: "authorAvatarURL48", path: "_embedded.author[].avatar_urls.`48`"}
+     {field: "authorAvatarURL96", path: "_embedded.author[].avatar_urls.`96`"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+type CategoryID {
+  id : ID!
+}
+
+type Query {
+        postCategoryIds(postID : ID!): [CategoryIDs] 
+        @rest(
+        endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/posts/$postID&_embed&_envelope"
+        setters: [
+        {field: "id", path: "body.categories[]"},
+        ]
+    configuration: "wordpress_config"
+)}
+
+extend type Post {
+  categoryIDs: [CategoryIDs]
+    @materializer(
+      query: "postCategoryIds"
+      arguments: [{ name: "postID", field: "id" }]
+    )
+}
+type TagID {
+  id : ID!
+}
+
+type Query {
+        postTagIds(postID : ID!): [TagIDs] 
+        @rest(
+        endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/posts/$postID&_embed&_envelope"
+        setters: [
+        {field: "id", path: "body.tags[]"},
+        ]
+    configuration: "wordpress_config"
+)}
+
+extend type Post {
+  tagIDs: [TagIDs]
+    @materializer(
+      query: "postTagIds"
+      arguments: [{ name: "postID", field: "id" }]
+    )
+}
+
+""" Categories Indices"""
+type CategoryIDs {
+     """ ID """
+     id: ID!
+     category: Category
+     @materializer(
+      query: "category"
+      arguments: [{ name: "id", field: "id" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  categoryIDs(pageNumber: Int!=1): [CategoryIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/categories/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "id", path: "body[].id"}    
+    ]
+  )
+}
+""" Categories """
+type Category {
+     """ ID """
+       id: ID!
+     """ Count published posts """
+       count: Int
+     """ Description in HTML """
+       description: String
+     """ URL """
+       link: String
+     """ Name """
+       name: String
+     """ alphanum id unique to type """
+       slug: String
+     """ type attribution: category, post_tag, nav_menu, link_category, post_format """
+       taxonomy: String
+     parentID: ID
+}
+
+type Query {
+  category(id: ID!): Category
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/categories/$id&_embed&_envelope"
+    setters: [
+      {field: "id", path: "body.id"}
+     {field: "count", path: "body.menu_order"}
+     {field: "description", path: "body.description"}
+     {field: "link", path: "body.link"}
+     {field: "name", path: "body.name"}
+     {field: "slug", path: "body.slug"}
+     {field: "taxonomy", path: "body.taxonomy"}
+     {field: "parentID", path: "body.parent"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+
+""" Tags Indices"""
+type TagIDs {
+     """ ID """
+       id: ID!
+     tag: Tag
+     @materializer(
+      query: "tag"
+      arguments: [{ name: "id", field: "id" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  tagIDs(pageNumber: Int!=1): [TagIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/tags/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "id", path: "body[].id"}    
+    ]
+  )
+}
+""" Tags """
+type Tag {
+     """ ID """
+       id: ID!
+     """ Count published posts """
+       count: Int
+     """ Description in HTML """
+       description: String
+     """ URL """
+       link: String
+     """ Name """
+       name: String
+     """ alphanum id unique to type """
+       slug: String
+     """ type attribution: category, post_tag, nav_menu, link_category, post_format """
+       taxonomy: String
+     parentID: ID
+}
+
+type Query {
+  tag(id: ID!): Tag
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/tags/$id&_embed&_envelope"
+    setters: [
+      {field: "id", path: "body.id"}
+     {field: "count", path: "body.menu_order"}
+     {field: "description", path: "body.description"}
+     {field: "link", path: "body.link"}
+     {field: "name", path: "body.name"}
+     {field: "slug", path: "body.slug"}
+     {field: "taxonomy", path: "body.taxonomy"}
+     {field: "parentID", path: "body.parent"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+
+""" Comments Indices"""
+type CommentIDs {
+     """ id """
+       id: ID!
+     """ Date """
+       date: String
+     """ Date GMT """
+       dateGMT: String
+
+     comment: Comment
+     @materializer(
+      query: "comment"
+      arguments: [{ name: "id", field: "id" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  commentIDs(pageNumber: Int!=1): [CommentIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/comments/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "id", path: "body[].id"}
+     {field: "date", path: "body[].date"}
+     {field: "dateGMT", path: "body[].date_gmt"}    
+    ]
+  )
+}
+""" Comments """
+type Comment {
+     """ id """
+       id: ID!
+     """ authorID if a user """
+       authorID: ID
+     """ name """
+       authorName: String
+     """ URL """
+       authorUrl: String
+     """ The content for the object. """
+       content: String!
+     """ Date """
+       date: String
+     """ Date GMT """
+       dateGMT: String
+     """ Link URL """
+       link: String
+     """ parentID """
+       parentID: ID
+     """ PostiD """
+       postID: ID
+     """ status: include unapproved, approved, spam, trash """
+       status: String
+     """ comment type """
+       type: String
+     avatarURL24: String
+     avatarURL48: String
+     avatarURL96: String
+}
+
+type Query {
+  comment(id: ID!): Comment
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/comments/$id&_embed&_envelope"
+    setters: [
+      {field: "id", path: "body.id"}
+     {field: "authorID", path: "body.author"}
+     {field: "authorName", path: "body.author_name"}
+     {field: "authorUrl", path: "body.author_url"}
+     {field: "content", path: "body.content.rendered"}
+     {field: "date", path: "body.date"}
+     {field: "dateGMT", path: "body.date_gmt"}
+     {field: "link", path: "body.link"}
+     {field: "parentID", path: "body.parent"}
+     {field: "postID", path: "body.post"}
+     {field: "status", path: "body.status"}
+     {field: "type", path: "body.type"}
+     {field: "avatarURL24", path: "body.author_avatar_urls.`24`"}
+     {field: "avatarURL48", path: "body.author_avatar_urls.`48`"}
+     {field: "avatarURL96", path: "body.author_avatar_urls.`96`"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+
+""" Media Indices"""
+type MediaIDs {
+     """ Unique identifier for the object. """
+       id: ID!
+     apiItemsTotal: Int
+     apiItemsPages: Int
+
+     media: Media
+     @materializer(
+      query: "media"
+      arguments: [{ name: "id", field: "id" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  mediaIDs(pageNumber: Int!=1): [MediaIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/media/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "id", path: "body[].id"}
+     {field: "apiItemsTotal", path: "headers.`X-WP-Total`"}
+     {field: "apiItemsPages", path: "headers.`X-WP-TotalPages`"}    
+    ]
+  )
+}
+
+extend type Post {
+  featuredMedia: Media
+    @materializer(
+      query: "media"
+      arguments: [{ name: "id", field: "featuredMediaID" }]
+    )
+}
+
+""" Media """
+type Media {
+     """ The date the object was published, in the site's timezone. """
+       date: String
+     """ The date the object was published, as GMT. """
+       dateGMT: String
+     """ he globally unique identifier for the object. """
+       guid: String!
+     """ Unique identifier for the object. """
+       id: ID!
+     """ URL to the object. """
+       link: String!,
+     """ The date the object was last modified, in the site's timezone. """
+       modified: String
+     """ The date the object was last modified, as GMT. """
+       modifiedGMT: String
+     """ ID unique to type """
+       slug: String!
+     """ status: publish, future, draft, pending, private """
+       status: String!
+     """ type """
+       type: String!
+     """ The title for the object. """
+       title: String!
+     """ authorID """
+       authorID: ID!
+     """ status: open, closed """
+       commentStatus: String
+     """ ping: open, closed """
+       pingStatus: String
+     """ theme """
+       template: String
+     """ alt text """
+       altText: String
+     """ type: image, file """
+       mediaType: String
+     """ mimetype """
+       mimeType: String
+     """ The ID for the associated post of the attachment. """
+       postID: ID
+     """ Source URL """
+       sourceURL: String
+}
+
+type Query {
+  media(id: ID!): Media
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/media/$id&_embed&_envelope"
+    setters: [
+      {field: "date", path: "body.date"}
+     {field: "dateGMT", path: "body.date_gmt"}
+     {field: "guid", path: "body.guid.rendered"}
+     {field: "id", path: "body.id"}
+     {field: "link", path: "body.link"}
+     {field: "modified", path: "body.modified"}
+     {field: "modifiedGMT", path: "body.modified_gmt"}
+     {field: "slug", path: "body.slug"}
+     {field: "status", path: "body.status"}
+     {field: "type", path: "body.type"}
+     {field: "title", path: "body.title.rendered"}
+     {field: "authorID", path: "body.author"}
+     {field: "commentStatus", path: "body.comment_status"}
+     {field: "pingStatus", path: "body.ping_status"}
+     {field: "template", path: "body.template"}
+     {field: "altText", path: "body.alt_text"}
+     {field: "mediaType", path: "body.media_type"}
+     {field: "mimeType", path: "body.mime_type"}
+     {field: "postID", path: "body.post"}
+     {field: "sourceURL", path: "body.source_url"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+
+""" Themes Indices"""
+type ThemeIDs {
+     """ Stylesheet """
+       stylesheetID: String!
+
+     theme: Theme
+     @materializer(
+      query: "theme"
+      arguments: [{ name: "id", field: "stylesheetID" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  themeIDs(pageNumber: Int!=1): [ThemeIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/themes/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "stylesheetID", path: "body[].stylesheet"}    
+    ]
+  )
+}
+""" Themes """
+type Theme {
+     """ Stylesheet """
+       stylesheetID: String!
+     """ Template is parent theme name else stylesheet """
+       template: String!
+     """ Author (display) """
+       authorDisplay: String!
+     """ Author """
+       author: String!
+     """ Author website (display)) """
+       authorURIDisplay: String!
+     """ Author website """
+       authorURI: String!
+     """ description """
+       description: String!
+     """ description (raw) """
+       descriptionRaw: String!
+     """ name """
+       name: String!
+     """ name (raw) """
+       nameRaw: String!
+     """ php version required """
+       requiresPHP: String!
+     """ WordPress version required """
+       requiresWP: String!
+     """ Screenshot URL """
+       screenshot: String!
+     """ Tags rendered """
+       tags: String!
+     """ Text domain. """
+       textDomain: String!
+     """ version """
+       version: String!
+}
+
+type Query {
+  theme(id: ID!): Theme
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/themes/$id&_embed&_envelope"
+    setters: [
+      {field: "stylesheetID", path: "body.stylesheet"}
+     {field: "template", path: "body.template"}
+     {field: "authorDisplay", path: "body.author.rendered"}
+     {field: "author", path: "body.author.raw"}
+     {field: "authorURIDisplay", path: "body.author_uri.rendered"}
+     {field: "authorURI", path: "body.author_uri.raw"}
+     {field: "description", path: "body.description.rendered"}
+     {field: "descriptionRaw", path: "body.description.raw"}
+     {field: "name", path: "body.name.rendered"}
+     {field: "nameRaw", path: "body.name.raw"}
+     {field: "requiresPHP", path: "body.requires_php"}
+     {field: "requiresWP", path: "body.requires_wp"}
+     {field: "screenshot", path: "body.screenshot"}
+     {field: "tags", path: "body.tags.rendered"}
+     {field: "textDomain", path: "body.textdomain"}
+     {field: "version", path: "body.version"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+
+""" Plugins Indices"""
+type PluginIDs {
+     """ The plugin file. """
+       pluginID: String!
+
+     plugin: Plugin
+     @materializer(
+      query: "plugin"
+      arguments: [{ name: "id", field: "pluginID" }]
+     )
+}
+type Query {
+  """ IDs with API pagination """
+  pluginIDs(pageNumber: Int!=1): [PluginIDs]
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/plugins/&_embed&_envelope"
+    configuration: "wordpress_config"
+    setters: [
+      {field: "pluginID", path: "body[].plugin"}    
+    ]
+  )
+}
+""" Plugins """
+type Plugin {
+     """ The plugin file. """
+       pluginID: String!
+     """ Status: inactive, active """
+       status: String!
+     """ Name """
+       name: String!
+     """ Plugin Website """
+       pluginURI: String!
+     """ Author """
+       author: String!
+     """ Plugin Author Website """
+       authorURI: String!
+     """ Description (displayable) """
+       description: String!
+     """ Description (raw) """
+       descriptionRaw: String!
+     """ Version """
+       version: String!
+     """ Can be enabled network-wide """
+       networkOnly: Boolean
+     """ WordPress version required """
+       requiresWP: String!
+     """ php version required """
+       requiresPHP: String!
+     """ Text domain """
+       textDomain: String!
+}
+
+type Query {
+  plugin(id: ID!): Plugin
+  @rest(
+    endpoint: "http://$username:$password@34.67.78.173/index.php?rest_route=/wp/v2/plugins/$id&_embed&_envelope"
+    setters: [
+      {field: "pluginID", path: "body.plugin"}
+     {field: "status", path: "body.status"}
+     {field: "name", path: "body.name"}
+     {field: "pluginURI", path: "body.plugin_uri"}
+     {field: "author", path: "body.author"}
+     {field: "authorURI", path: "body.author_uri"}
+     {field: "description", path: "body.description.rendered"}
+     {field: "descriptionRaw", path: "body.description.raw"}
+     {field: "version", path: "body.version"}
+     {field: "networkOnly", path: "body.network_only"}
+     {field: "requiresWP", path: "body.requires_wp"}
+     {field: "requiresPHP", path: "body.requires_php"}
+     {field: "textDomain", path: "body.textdomain"}
+    ]
+   configuration: "wordpress_config"
+  )
+}
+
+

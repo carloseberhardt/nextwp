@@ -15,7 +15,7 @@ import Tags from '../../components/tags'
 
 export default function Post({ post, posts, preview }) {
   const router = useRouter()
-  const morePosts = posts?.edges
+  const morePosts = posts
 
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />
@@ -36,19 +36,19 @@ export default function Post({ post, posts, preview }) {
                 </title>
                 <meta
                   property="og:image"
-                  content={post.featuredImage?.node?.sourceUrl}
+                  content={post.featuredMedia?.sourceUrl}
                 />
               </Head>
               <PostHeader
                 title={post.title}
-                coverImage={post.featuredImage?.node}
+                coverImage={post.featuredMedia}
                 date={post.date}
-                author={post.author?.node}
-                categories={post.categories}
+                author={post.authorName}
+                categories={post.categoryIDs}
               />
               <PostBody content={post.content} />
               <footer>
-                {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
+                {post.tagIDs.length > 0 && <Tags tags={post.tagIDs} />}
               </footer>
             </article>
 
@@ -77,7 +77,7 @@ export async function getStaticPaths() {
   const allPosts = await getAllPostsWithSlug()
 
   return {
-    paths: allPosts.edges.map(({ node }) => `/posts/${node.slug}`) || [],
+    paths: allPosts.map(( post ) => `/posts/${post.slug}`) || [],
     fallback: true,
   }
 }
